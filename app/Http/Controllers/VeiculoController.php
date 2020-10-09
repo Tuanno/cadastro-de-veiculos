@@ -13,7 +13,8 @@ class VeiculoController extends Controller
      */
     public function index()
     {
-        //
+        $veiculos=\App\Veiculo::all();
+        return view('index',compact('veiculos'));
     }
 
     /**
@@ -34,7 +35,23 @@ class VeiculoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->hasfile('foto'))
+         {
+            $file = $request->file('foto');
+            $name=time().$file->getClientOriginalName();
+            $file->move(public_path().'/images/', $name);
+
+
+         }
+        $veiculo= new \App\Veiculo;
+        $veiculo->nome=$request->get('nome');
+        $veiculo->marca=$request->get('marca');
+        $veiculo->categoria=$request->get('categoria');
+        $veiculo->ano=$request->get('ano');
+        $veiculo->foto=$name;
+        $veiculo->save();
+        
+        return redirect('veiculos')->with('success', 'informação concluida');
     }
 
     /**
@@ -56,7 +73,8 @@ class VeiculoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $veiculo = \App\Veiculo::find($id);
+        return view('edit',compact('veiculo','id'));
     }
 
     /**
@@ -68,7 +86,23 @@ class VeiculoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if($request->hasfile('foto'))
+
+         {
+            $file = $request->file('foto');
+            $name=time().$file->getClientOriginalName();
+            $file->move(public_path().'/images/', $name);
+         }
+
+        $veiculo= \App\Veiculo::find($id);
+        $veiculo->nome=$request->get('nome');
+        $veiculo->marca=$request->get('marca');
+        $veiculo->categoria=$request->get('categoria');
+        $veiculo->ano=$request->get('ano');
+        $veiculo->foto=$name;
+        $veiculo->save();
+        return redirect('veiculos');
+
     }
 
     /**
@@ -79,6 +113,8 @@ class VeiculoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $veiculo = \App\Veiculo::find($id);
+        $veiculo->delete();
+        return redirect('veiculos')->with('success','Informaão Deletada Com Sucesso');
     }
 }

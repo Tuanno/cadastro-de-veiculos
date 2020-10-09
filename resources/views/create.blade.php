@@ -14,7 +14,7 @@
   </head>
   <body>
     <div class="container">
-      <h2>Cadastro de veiculos</h2><br/>
+      <h2><center>Cadastro de veiculos</center></h2><br/>
       <form method="post" action="{{url('veiculos')}}" enctype="multipart/form-data">
         @csrf
         <div class="row">
@@ -48,7 +48,7 @@
         <div class="row">
           <div class="col-md-4"></div>
           <div class="form-group col-md-4">
-            <input type="foto" name="foto">    
+            <input type="file" name="foto">    
          </div>
         </div>
         <div class="row">
